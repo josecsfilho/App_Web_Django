@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TK</title>
+
+
+  <!-- Chamando template bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+</head>
+
+<body>
+  <main>
+    <div class="container">
+      <header class="py-3 mb-3 border-bottom">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center">
+            <a href="#" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+              <img src="https://lirp.cdn-website.com/ecc1a288/dms3rep/multi/opt/Logomarca-1920w.png" alt="Logo"
+                width="100" height="35">
+            </a>
+          </div>
+
+          <div class="flex-shrink-0 dropdown">
+            <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                class="bi bi-arrow-right-square-fill" viewBox="0 0 16 16">
+                <path
+                  d="M0 14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v12zm4.5-6.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5a.5.5 0 0 1 0-1z" />
+              </svg>
+            </a>
+            <ul class="dropdown-menu text-small shadow">
+
+
+
+              <li><a class="dropdown-item" href="{% url 'alterar_senha' %}">Alterar senha</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="{% url 'sair' %}">Sair</a></li>
+
+
+
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <div class="container-fluid pb-3">
+        <div class="d-grid gap-3" style="grid-template-columns: 1fr;">
+          <div class="bg-body-tertiary border rounded-3 d-sm-block">
+            <br><br><br><br><br><br><br><br><br><br>
+          </div>
+          <div class="bg-body-tertiary border rounded-3 d-sm-block">
+            <br><br><br><br><br><br><br><br><br><br>
+          </div>
+          <div class="bg-body-tertiary border rounded-3 d-sm-block">
+            <br><br><br><br><br><br><br><br><br><br>
+          </div>
+        </div>
+      </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
