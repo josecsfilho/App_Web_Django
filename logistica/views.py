@@ -7,12 +7,12 @@ from .forms import CustomPasswordChangeForm, ConfirmPasswordForm
 from django.contrib import messages
 
 
-@login_required
+
 def home(request):
     return render(request, 'index.html')
 
 
-@login_required
+
 def user_login(request):
     error = None  # Inicialize a variável de erro como None
     if request.method == 'POST':

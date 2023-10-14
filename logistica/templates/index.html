@@ -1,72 +1,255 @@
-<!doctype html>
-<html lang="pt-br">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>TK</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Barcode Scanner</title>
 
+    <!-- Chamando template bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
+    <style>
+        #interactive.viewport {
+            position: relative;
+            width: 100%;
+            height: auto;
+            overflow: hidden;
+            text-align: center;
+        }
 
-  <!-- Chamando template bootstrap -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+        #interactive.viewport>canvas,
+        #interactive.viewport>video {
+            max-width: 100%;
+            width: 100%;
+        }
+
+        canvas.drawing,
+        canvas.drawingBuffer {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    </style>
 </head>
 
 <body>
-  <main>
-    <div class="container">
-      <header class="py-3 mb-3 border-bottom">
-        <div class="container-fluid d-flex justify-content-between align-items-center">
-          <div class="d-flex align-items-center">
-            <a href="#" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
-              <img src="https://lirp.cdn-website.com/ecc1a288/dms3rep/multi/opt/Logomarca-1920w.png" alt="Logo"
-                width="100" height="35">
-            </a>
-          </div>
+    <main>
+        <div class="container">
+            <header class="py-3 mb-3 border-bottom">
+                <div class="container-fluid d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <a href="#"
+                            class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+                            <img src="https://lirp.cdn-website.com/ecc1a288/dms3rep/multi/opt/Logomarca-1920w.png"
+                                alt="Logo" width="100" height="35" />
+                        </a>
+                    </div>
 
-          <div class="flex-shrink-0 dropdown">
-            <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
-              data-bs-toggle="dropdown" aria-expanded="false">
-              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
-                class="bi bi-arrow-right-square-fill" viewBox="0 0 16 16">
-                <path
-                  d="M0 14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v12zm4.5-6.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5a.5.5 0 0 1 0-1z" />
-              </svg>
-            </a>
-            <ul class="dropdown-menu text-small shadow">
+                    <div class="dropdown">
+                    <div class="flex-shrink-0 dropdown">
+                        <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                                class="bi bi-arrow-right-square-fill" viewBox="0 0 16 16">
+                                <path d="M0 14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v12zm4.5-6.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5a.5.5 0 0 1 0-1z" />
+                            </svg>
+                        </a>
+                        <ul class="dropdown-menu text-small shadow">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'alterar_senha' %}">Alterar senha</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'sair' %}">Sair</a>
+                            </li>
+                        </ul>
+                    </div>
+                    </div>
+                </div>
+            </header>
 
+            <div class="container-fluid pb-3">
+                <div class="d-grid gap-3" style="grid-template-columns: 1fr">
+                    <div class="container" style="margin-top: 2em">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="input-group">
+                                  <input id="scanner_input" type="text" class="form-control" placeholder="Digite o código">
+                                  <button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#livestream_scanner">
+                                      <i class="fa fa-barcode"></i>
+                                  </button>
 
+                                  <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#livestream_scanner">
+                                      <i class="fa fa-search"></i>
+                                  </button>
+                                </div>
 
-              <li><a class="dropdown-item" href="{% url 'alterar_senha' %}">Alterar senha</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li><a class="dropdown-item" href="{% url 'sair' %}">Sair</a></li>
-
-
-
-            </ul>
-          </div>
+                            </div>
+                        </div>
+                        <div class="modal" id="livestream_scanner">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <h4 class="modal-title">Aponte para código de barras</h4>
+                                    </div>
+                                    <div class="modal-body" style="position: static">
+                                        <div id="interactive" class="viewport"></div>
+                                        <div class="error"></div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <!--                        <label class="btn btn-default pull-left">-->
+                                        <!--                            <i class="fa fa-camera"></i> Use camera app-->
+                                        <!--                            <input type="file" accept="image/*;capture=camera" capture="camera" class="hidden" />-->
+                                        <!--                        </label>-->
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">
+                                            Close
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </header>
+    </main>
 
-      <div class="container-fluid pb-3">
-        <div class="d-grid gap-3" style="grid-template-columns: 1fr;">
-          <div class="bg-body-tertiary border rounded-3 d-sm-block">
-            <br><br><br><br><br><br><br><br><br><br>
-          </div>
-          <div class="bg-body-tertiary border rounded-3 d-sm-block">
-            <br><br><br><br><br><br><br><br><br><br>
-          </div>
-          <div class="bg-body-tertiary border rounded-3 d-sm-block">
-            <br><br><br><br><br><br><br><br><br><br>
-          </div>
-        </div>
-      </div>
-  </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://a.kabachnik.info/assets/js/libs/quagga.min.js"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(function () {
+            var liveStreamConfig = {
+                inputStream: {
+                    type: "LiveStream",
+                    constraints: {
+                        width: { min: 640 },
+                        height: { min: 480 },
+                        aspectRatio: { min: 1, max: 100 },
+                        facingMode: "environment",
+                    },
+                },
+                locator: {
+                    patchSize: "medium",
+                    halfSample: true,
+                },
+                numOfWorkers: navigator.hardwareConcurrency
+                    ? navigator.hardwareConcurrency
+                    : 4,
+                decoder: {
+                    readers: [{ format: "ean_reader", config: {} }],
+                },
+                locate: true,
+            };
 
+            var fileConfig = $.extend({}, liveStreamConfig, {
+                inputStream: {
+                    size: 800,
+                },
+            });
+
+            $("#livestream_scanner").on("shown.bs.modal", function (e) {
+                Quagga.init(liveStreamConfig, function (err) {
+                    if (err) {
+                        $("#livestream_scanner .modal-body .error").html(
+                            '<div class="alert alert-danger"><strong><i class="fa fa-exclamation-triangle"></i> ' +
+                            err.name +
+                            "</strong>: " +
+                            err.message +
+                            "</div>"
+                        );
+                        Quagga.stop();
+                        return;
+                    }
+                    Quagga.start();
+                });
+            });
+
+            Quagga.onProcessed(function (result) {
+                var drawingCtx = Quagga.canvas.ctx.overlay,
+                    drawingCanvas = Quagga.canvas.dom.overlay;
+
+                if (result) {
+                    if (result.boxes) {
+                        drawingCtx.clearRect(
+                            0,
+                            0,
+                            parseInt(drawingCanvas.getAttribute("width")),
+                            parseInt(drawingCanvas.getAttribute("height"))
+                        );
+                        result.boxes
+                            .filter(function (box) {
+                                return box !== result.box;
+                            })
+                            .forEach(function (box) {
+                                Quagga.ImageDebug.drawPath(box, { x: 0, y: 1 }, drawingCtx, {
+                                    color: "green",
+                                    lineWidth: 2,
+                                });
+                            });
+                    }
+
+                    if (result.box) {
+                        Quagga.ImageDebug.drawPath(
+                            result.box,
+                            { x: 0, y: 1 },
+                            drawingCtx,
+                            {
+                                color: "#00F",
+                                lineWidth: 2,
+                            }
+                        );
+                    }
+
+                    if (result.codeResult && result.codeResult.code) {
+                        Quagga.ImageDebug.drawPath(
+                            result.line,
+                            { x: "x", y: "y" },
+                            drawingCtx,
+                            { color: "red", lineWidth: 3 }
+                        );
+                    }
+                }
+            });
+
+            Quagga.onDetected(function (result) {
+                if (result.codeResult.code) {
+                    $("#scanner_input").val(result.codeResult.code);
+
+                    Quagga.stop();
+                    setTimeout(function () {
+                        $("#livestream_scanner").modal("hide");
+                    }, 1000);
+                }
+            });
+
+            $("#livestream_scanner").on("hide.bs.modal", function () {
+                if (Quagga) {
+                    Quagga.stop();
+                }
+            });
+
+            $("#livestream_scanner input:file").on("change", function (e) {
+                if (e.target.files && e.target.files.length) {
+                    Quagga.decodeSingle(
+                        $.extend({}, fileConfig, {
+                            src: URL.createObjectURL(e.target.files[0]),
+                        }),
+                        function (result) {
+                            alert(result.codeResult.code);
+                        }
+                    );
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
